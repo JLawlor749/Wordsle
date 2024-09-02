@@ -2,6 +2,7 @@ from urllib.request import urlopen
 import urllib.error
 import re
 import time
+from colorama import Fore, Back, Style
 
 wordnik_file = open("WordnikAPI.env", "r")
 
@@ -44,20 +45,42 @@ print("\n        ~ Welcome to Wordsle! ~")
 print("------------------------------------------")
 
 while exit_game == False:
-    print("Would you like to start a game?")
-    print("Yes/No\n")
+    print("\nMain Menu:")
+    print("1. Start Game")
+    print("2. Instructions")
+    print("3. Quit\n")
 
     selection = input()
 
     match selection:
-        case "Yes" | "yes" | "y" | "Y":
+        case "1":
             
             puzzle_goal = get_word()
             
             print("Your word is {} letters long. Get ready to guess!\n".format(puzzle_goal[1]))
 
+            lost = False
+            won = False
+            letters_removed = []
+
+            while lost == False and won == False:
+                for el in range (0, puzzle_goal[1]):
+                    print("-", end = "")
+
+                print("")
+                guess = ""
+                while len(guess) != puzzle_goal[1]:
+                    guess = input()
+
+                print(guess)
 
 
-        case "No" | "no" | "N" | "n":
+
+                break
+
+
+
+
+        case "3":
             print("Exiting game... Goodbye!")
             exit_game = True
