@@ -64,7 +64,7 @@ while exit_game == False:
             letters_removed = []
 
             while lost == False and won == False:
-                for el in range (0, puzzle_goal[1]):
+                for i in range (0, puzzle_goal[1]):
                     print("-", end = "")
 
                 print("")
@@ -72,7 +72,20 @@ while exit_game == False:
                 while len(guess) != puzzle_goal[1]:
                     guess = input()
 
-                print(guess)
+                for i in range (0, puzzle_goal[1]):
+
+                    if guess[i] == (puzzle_goal[0])[i]:
+                        print(Fore.GREEN + guess[i], end = "")
+
+                    elif guess[i] != (puzzle_goal[0])[i] and guess[i] in puzzle_goal:
+                        print(Fore.YELLOW + guess[i], end = "")
+
+                    else:
+                        print(Fore.RED + guess[i], end = "")
+
+                print(Style.RESET_ALL)
+                print("")
+                    
 
 
 
