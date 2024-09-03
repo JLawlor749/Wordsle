@@ -8,7 +8,7 @@ wordnik_file = open("WordnikAPI.env", "r")
 
 wordnik_key = wordnik_file.read()
 
-wordnik_url = "http://api.wordnik.com/v4/words.json/randomWord?api_key=" + wordnik_key
+wordnik_url = "http://api.wordnik.com/v4/words.json/randomWord?minCorpusCount=5&minLength=5&maxLength=5&api_key=" + wordnik_key
 
 def get_word():
 
@@ -34,6 +34,8 @@ def get_word():
 
     wordnik_response = re.sub("\",\"id\":0}", "", wordnik_response)
 
+    wordnik_response = wordnik_response.upper()
+
     word_tuple = (wordnik_response, len(wordnik_response))
 
     return word_tuple
@@ -57,11 +59,14 @@ while exit_game == False:
             
             puzzle_goal = get_word()
             
-            print("Your word is {} letters long. Get ready to guess!\n".format(puzzle_goal[1]))
+            print("Input your guesses below:\n")
 
             lost = False
             won = False
-            letters_removed = []
+            letters_wrong = []
+            guesses = 5
+
+            print(puzzle_goal[0])
 
             while lost == False and won == False:
                 for i in range (0, puzzle_goal[1]):
@@ -72,22 +77,35 @@ while exit_game == False:
                 while len(guess) != puzzle_goal[1]:
                     guess = input()
 
-                for i in range (0, puzzle_goal[1]):
+                guess = guess.upper()
 
-                    if guess[i] == (puzzle_goal[0])[i]:
-                        print(Fore.GREEN + guess[i], end = "")
+                if guess == puzzle_goal[0]:
+                    print(Fore.GREEN + "{}".format(guess))
+                    print(Style.RESET_ALL)
+                    print("You Win!")
 
-                    elif guess[i] != (puzzle_goal[0])[i] and guess[i] in puzzle_goal:
-                        print(Fore.YELLOW + guess[i], end = "")
+                else:
+                    goal_checklist = []
+                    
+                    for el in puzzle_goal[0]:
+                        goal_checklist.append(el)
 
-                    else:
-                        print(Fore.RED + guess[i], end = "")
+                    for i in range (0, puzzle_goal[1]):
+
+                        if guess[i] == (puzzle_goal[0])[i]:
+                            print(Fore.GREEN + guess[i], end = "")
+                            goal_checklist.remove(guess[i])
+
+                        elif guess[i] in goal_checklist and guess[i] != (puzzle_goal[0])[i]:
+                            print(Fore.YELLOW + guess[i], end = "")
+                            goal_checklist.remove(guess[i])
+
+
+                        else:
+                            print(Fore.RED + guess[i], end = "")
 
                 print(Style.RESET_ALL)
                 print("")
-                    
-
-
 
                 break
 
