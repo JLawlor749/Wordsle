@@ -2,13 +2,12 @@ from urllib.request import urlopen
 import urllib.error
 import re
 import time
-from colorama import Fore, Back, Style
 
 wordnik_file = open("WordnikAPI.env", "r")
 
 wordnik_key = wordnik_file.read()
 
-wordnik_url = "http://api.wordnik.com/v4/words.json/randomWord?minCorpusCount=5&minLength=5&maxLength=5&api_key=" + wordnik_key
+wordnik_url = "http://api.wordnik.com/v4/words.json/randomWord?minCorpusCount=15&minLength=5&maxLength=5&api_key=" + wordnik_key
 
 def get_word():
 
@@ -66,7 +65,7 @@ while exit_game == False:
             letters_wrong = []
             guesses = 5
 
-            print(puzzle_goal[0])
+            #print(puzzle_goal[0])
 
             while lost == False and won == False:
                 for i in range (0, puzzle_goal[1]):
@@ -80,34 +79,46 @@ while exit_game == False:
                 guess = guess.upper()
 
                 if guess == puzzle_goal[0]:
-                    print(Fore.GREEN + "{}".format(guess))
-                    print(Style.RESET_ALL)
+                    print("\033[1;32;40m" + "{}".format(guess))
+                    print("\033[0;37;40m")
+                    won = True
                     print("You Win!")
 
                 else:
+                    guesses -= 1
+
                     goal_checklist = []
+                    guess_print = []
                     
                     for el in puzzle_goal[0]:
                         goal_checklist.append(el)
 
                     for i in range (0, puzzle_goal[1]):
-
                         if guess[i] == (puzzle_goal[0])[i]:
-                            print(Fore.GREEN + guess[i], end = "")
+                            guess_print.append(("\033[1;32;40m", i))
                             goal_checklist.remove(guess[i])
 
-                        elif guess[i] in goal_checklist and guess[i] != (puzzle_goal[0])[i]:
-                            print(Fore.YELLOW + guess[i], end = "")
+                    for i in range (0, puzzle_goal[1]):
+                        if guess[i] in goal_checklist and guess[i] != (puzzle_goal[0])[i] and guess[i] != (puzzle_goal[0])[i]:
+                            guess_print.append(("\033[1;33;40m", i))
                             goal_checklist.remove(guess[i])
 
+                    for i in range (0, puzzle_goal[1]):
+                        if guess[i] not in goal_checklist and ("\033[1;33;40m", i) not in guess_print and ("\033[1;32;40m", i) not in guess_print:
+                            guess_print.append(("\033[1;31;40m", i))
 
-                        else:
-                            print(Fore.RED + guess[i], end = "")
+                    guess_print.sort(key=lambda tup:tup[1])
 
-                print(Style.RESET_ALL)
-                print("")
+                    for el in guess_print:
+                        print(el[0] + guess[el[1]], end="")
 
-                break
+                    print("\033[0;37;40m")
+                    print("")
+                    
+
+                if guesses < 1:
+                    lost = True
+                    print("\nUh Oh! You lose! The answer was {}.\n".format(puzzle_goal[0]))
 
 
 
