@@ -86,7 +86,7 @@ def check_word(word:str, target_word:str, word_length:int):
         if word[i] not in goal_checklist and ("\033[1;33;40m", i) not in guess_print and ("\033[1;32;40m", i) not in guess_print:
             guess_print.append(("\033[1;31;40m", i))
             
-            if word[i] not in letters_wrong:
+            if word[i] not in letters_wrong and word[i] not in target_word:
                 letters_wrong.append(word[i])
 
     # Now, use a lamba (small anonymous function) and sort the guess list by the second tuple element, i.e. the letters' indexes.
