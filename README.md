@@ -1,6 +1,6 @@
 # Wordsle
 A variant of the game "Wordle".
 
-[https://imgur.com/gallery/wordle-screenshot-PEWg9tD]
+!(The official Wordle game.)(https://imgur.com/gallery/wordle-screenshot-PEWg9tD)
 
-[https://imgur.com/gallery/mywordle-RC1HWK5]
+![My own version, Wordsle, written in Python.](https://imgur.com/gallery/mywordle-RC1HWK5)
